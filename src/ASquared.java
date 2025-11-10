@@ -2,21 +2,24 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.io.BufferedReader; // Added for REPL
+import java.io.InputStreamReader; // Added for REPL
 
 public class ASquared {
-    public static void main(String[] args) {
-        if (args.length == 0) {
-            System.out.println("A² Language Interpreter");
-            System.out.println("Usage: java ASquared <filename.a2>");
-            System.out.println("\nExample program:");
-            System.out.println("  let x = 10");
-            System.out.println("  let y = 20");
-            System.out.println("  print x + y");
-            return;
+    
+    // We need the Interpreter to be persistent for the REPL
+    private static final Interpreter interpreter = new Interpreter();
+
+    public static void main(String[] args) throws IOException { // Added throws
+        if (args.length > 0) {
+            String filename = args[0];
+            runFile(filename);
+        } else {
+            runREPL();
         }
-        
-        String filename = args[0];
-        
+    }
+    
+    private static void runFile(String filename) throws IOException {
         try {
             String source = new String(Files.readAllBytes(Paths.get(filename)));
             run(source);
@@ -28,7 +31,38 @@ public class ASquared {
             System.exit(1);
         }
     }
+
+    // --- New Method for REPL ---
+    private static void runREPL() throws IOException {
+        InputStreamReader input = new InputStreamReader(System.in);
+        BufferedReader reader = new BufferedReader(input);
+
+        System.out.println("A² Language REPL");
+        System.out.println("Type 'exit' to quit.");
+
+        while (true) {
+            System.out.print("> ");
+            String line = reader.readLine();
+            
+            if (line == null || line.equals("exit")) {
+                break;
+            }
+            
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            // Run the line, but catch errors and continue
+            try {
+                run(line);
+            } catch (RuntimeException e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+    }
     
+    // The 'run' method is now used by both the file runner and the REPL.
+    // It uses the single, persistent 'interpreter' instance.
     public static void run(String source) {
         // Lexical analysis
         Lexer lexer = new Lexer(source);
@@ -39,8 +73,7 @@ public class ASquared {
         AST.Program program = parser.parse();
         
         // Interpretation
-        Interpreter interpreter = new Interpreter();
+        // Note: We use the static 'interpreter' instance
         interpreter.interpret(program);
     }
 }
-
