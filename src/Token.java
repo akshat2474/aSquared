@@ -22,6 +22,7 @@ public class Token {
     private TokenType type;
     private String value;
     private int line;
+
     
     public Token(TokenType type, String value, int line) {
         this.type = type;
@@ -40,9 +41,5 @@ public class Token {
     public int getLine() {
         return line;
     }
-    
-    @Override
-    public String toString() {
-        return "Token{" + type + ", '" + value + "', line=" + line + "}";
-    }
 }
+

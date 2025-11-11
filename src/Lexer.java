@@ -10,13 +10,11 @@ public class Lexer {
     private char currentChar;
     
     private static final Map<String, Token.TokenType> KEYWORDS = new HashMap<>();
-    
     static {
         KEYWORDS.put("let", Token.TokenType.LET);
         KEYWORDS.put("print", Token.TokenType.PRINT);
         KEYWORDS.put("if", Token.TokenType.IF);
         KEYWORDS.put("else", Token.TokenType.ELSE);
-        KEYWORDS.put("while", Token.TokenType.WHILE);
     }
     
     public Lexer(String input) {
@@ -37,7 +35,7 @@ public class Lexer {
             }
         }
     }
-    
+
     private char peek() {
         int peekPos = position + 1;
         if (peekPos >= input.length()) {
@@ -45,7 +43,7 @@ public class Lexer {
         }
         return input.charAt(peekPos);
     }
-    
+
     private void skipWhitespace() {
         while (currentChar != '\0' && Character.isWhitespace(currentChar) && currentChar != '\n') {
             advance();
@@ -90,6 +88,7 @@ public class Lexer {
     private Token string() {
         StringBuilder result = new StringBuilder();
         int startLine = line;
+
         
         advance(); // Skip opening quote
         

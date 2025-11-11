@@ -1,5 +1,0 @@
-let name = "A² Language";
-print name;
-let greeting = "Hello, ";
-let user = "World";
-print greeting + user;
