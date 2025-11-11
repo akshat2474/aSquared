@@ -2,15 +2,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.io.BufferedReader; // Added for REPL
-import java.io.InputStreamReader; // Added for REPL
+import java.io.BufferedReader; 
+import java.io.InputStreamReader; 
 
 public class ASquared {
     
-    // We need the Interpreter to be persistent for the REPL
     private static final Interpreter interpreter = new Interpreter();
 
-    public static void main(String[] args) throws IOException { // Added throws
+    public static void main(String[] args) throws IOException { 
         if (args.length > 0) {
             String filename = args[0];
             runFile(filename);
@@ -32,7 +31,6 @@ public class ASquared {
         }
     }
 
-    // --- New Method for REPL ---
     private static void runREPL() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
@@ -52,7 +50,6 @@ public class ASquared {
                 continue;
             }
 
-            // Run the line, but catch errors and continue
             try {
                 run(line);
             } catch (RuntimeException e) {
@@ -61,8 +58,6 @@ public class ASquared {
         }
     }
     
-    // The 'run' method is now used by both the file runner and the REPL.
-    // It uses the single, persistent 'interpreter' instance.
     public static void run(String source) {
         // Lexical analysis
         Lexer lexer = new Lexer(source);
@@ -72,8 +67,6 @@ public class ASquared {
         Parser parser = new Parser(tokens);
         AST.Program program = parser.parse();
         
-        // Interpretation
-        // Note: We use the static 'interpreter' instance
         interpreter.interpret(program);
     }
 }

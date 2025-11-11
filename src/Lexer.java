@@ -17,7 +17,6 @@ public class Lexer {
         KEYWORDS.put("if", Token.TokenType.IF);
         KEYWORDS.put("else", Token.TokenType.ELSE);
         KEYWORDS.put("while", Token.TokenType.WHILE);
-        KEYWORDS.put("end", Token.TokenType.END);
     }
     
     public Lexer(String input) {
@@ -242,4 +241,3 @@ public class Lexer {
         return tokens;
     }
 }
-

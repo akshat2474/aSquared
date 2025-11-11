@@ -4,7 +4,7 @@ public class Token {
         NUMBER, IDENTIFIER, STRING,
         
         // Keywords
-        LET, PRINT, IF, ELSE, WHILE, END,
+        LET, PRINT, IF, ELSE, WHILE,
         
         // Operators
         PLUS, MINUS, MULTIPLY, DIVIDE, MODULO,

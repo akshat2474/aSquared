@@ -1,3 +1,4 @@
+# I am smart
 let counter = 1;
 while (counter <= 5) {
     print counter;
